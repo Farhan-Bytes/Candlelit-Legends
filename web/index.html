@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Candlelit Legends</title>
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+
+<!-- Candle used on several screens. Glow and flame are styled per screen. -->
+<template id="candle-tpl">
+  <svg class="candle" viewBox="0 0 120 220" aria-hidden="true">
+    <defs><radialGradient id="GLOW_ID"><stop offset="0" stop-color="#f5a742" stop-opacity="0.4"/><stop offset="1" stop-color="#f5a742" stop-opacity="0"/></radialGradient></defs>
+    <circle class="candle-glow" cx="60" cy="48" r="58" fill="url(#GLOW_ID)"/>
+    <g class="candle-flame">
+      <path d="M60 16 C70 34 77 50 71 62 C67 70 53 70 49 62 C43 50 50 34 60 16 Z" fill="#f5a742"/>
+      <path d="M60 38 C65 48 66 56 63 61 C61 64 59 64 57 61 C54 56 55 48 60 38 Z" fill="#ffe2a8"/>
+    </g>
+    <path d="M60 64 L60 76" stroke="#2a1d12" stroke-width="3" stroke-linecap="round"/>
+    <rect x="36" y="76" width="48" height="118" rx="6" fill="#e8d9b5"/>
+    <path d="M36 90 C36 81 44 76 52 76 L84 76 L84 94 C80 94 80 108 75 108 C70 108 71 94 66 94 L36 94 Z" fill="#f4e8cc"/>
+    <rect x="28" y="188" width="64" height="10" rx="3" fill="#4a3624"/>
+    <ellipse cx="60" cy="202" rx="54" ry="12" fill="#2f2117"/>
+  </svg>
+</template>
+
+<template id="mute-tpl">
+  <button type="button" class="icon-btn js-mute" aria-label="Mute sounds" aria-pressed="false">
+    <svg class="ico-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+    <svg class="ico-off" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/></svg>
+  </button>
+</template>
+
+<!-- 1 · Light the candle -->
+<section class="screen screen-light" id="screen-light">
+  <svg class="candle candle-unlit" viewBox="0 0 120 220" aria-hidden="true">
+    <path class="smoke" d="M60 58 C52 46 68 38 60 26 C54 18 62 12 60 4" fill="none" stroke="#6b5d4d" stroke-width="2" stroke-linecap="round"/>
+    <path d="M60 62 L60 76" stroke="#2a1d12" stroke-width="3" stroke-linecap="round"/>
+    <rect x="36" y="76" width="48" height="118" rx="6" fill="#cbb98f"/>
+    <path d="M36 90 C36 81 44 76 52 76 L84 76 L84 94 C80 94 80 108 75 108 C70 108 71 94 66 94 L36 94 Z" fill="#dccb9f"/>
+    <rect x="28" y="188" width="64" height="10" rx="3" fill="#4a3624"/>
+    <ellipse cx="60" cy="202" rx="54" ry="12" fill="#2f2117"/>
+  </svg>
+  <h1 class="title-hero">Candlelit Legends</h1>
+  <p class="lede">Name a place, and an open-weight model running on your own machine will find what still walks there.</p>
+  <button type="button" class="btn btn-primary" id="light-btn">Light the candle</button>
+  <p class="muted-17">Sound will play. You can mute it at any time.</p>
+  <div class="trust-row">
+    <span>Runs on your laptop</span><span aria-hidden="true">·</span>
+    <span>No account</span><span aria-hidden="true">·</span>
+    <span>Sources for every tale</span>
+  </div>
+</section>
+
+<!-- 2 · Name a place -->
+<section class="screen screen-place" id="screen-place" hidden>
+  <header class="topbar">
+    <button type="button" class="brand js-home">Candlelit Legends</button>
+    <div class="topbar-actions">
+      <button type="button" class="text-link js-past">Past tales</button>
+      <span class="mute-slot"></span>
+    </div>
+  </header>
+  <main class="place-main">
+    <section class="place-candle">
+      <div class="candle-slot" data-size="180"></div>
+      <p class="quote">“Name a place, traveller. I’ll tell you what still walks there.”</p>
+    </section>
+    <form class="panel place-form" id="place-form" novalidate>
+      <div class="field">
+        <label for="place" class="eyebrow">Where shall we listen?</label>
+        <input id="place" name="place" type="text" autocomplete="off" placeholder="e.g. Ontario, Canada" required maxlength="120">
+        <p class="hint" id="place-hint">A town, a region, or a whole country. For big places, I’ll choose one haunted spot within it.</p>
+      </div>
+      <fieldset>
+        <legend class="eyebrow">Story type</legend>
+        <div class="pills" data-option="story_type"></div>
+      </fieldset>
+      <div class="option-grid">
+        <fieldset>
+          <legend class="eyebrow">Spookiness</legend>
+          <div class="pills" data-option="spookiness"></div>
+        </fieldset>
+        <div class="field">
+          <label for="narrator" class="eyebrow">Narrator</label>
+          <select id="narrator" name="narrator">
+            <option value="auto">Auto (changes each tale)</option>
+            <option value="old innkeeper">Old innkeeper</option>
+            <option value="lighthouse keeper">Lighthouse keeper</option>
+            <option value="skeptical historian">Skeptical historian</option>
+            <option value="the ghost itself">The ghost itself</option>
+          </select>
+        </div>
+        <fieldset>
+          <legend class="eyebrow">Length</legend>
+          <div class="pills" data-option="length"></div>
+        </fieldset>
+        <fieldset>
+          <legend class="eyebrow">Truth level</legend>
+          <div class="pills" data-option="truth_level"></div>
+          <p class="hint hint-tight">Embellished tales are marked as such at the end.</p>
+        </fieldset>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-ghost" id="roll-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8" cy="8" r="1.3" fill="currentColor"/><circle cx="12" cy="12" r="1.3" fill="currentColor"/><circle cx="16" cy="16" r="1.3" fill="currentColor"/></svg>
+          Roll the dice
+        </button>
+        <button type="submit" class="btn btn-primary">Summon a tale</button>
+      </div>
+      <p class="hint" id="model-note">Told by an open-weight model on your laptop. Only the search leaves your machine.</p>
+      <p class="warning" id="model-warning" hidden></p>
+    </form>
+  </main>
+</section>
+
+<!-- 3 · Searching the records -->
+<section class="screen screen-loading" id="screen-loading" hidden>
+  <header class="topbar">
+    <button type="button" class="brand js-home">Candlelit Legends</button>
+    <button type="button" class="text-link" id="cancel-btn">Cancel</button>
+  </header>
+  <main class="loading-main">
+    <div class="candle-slot candle-gutter" data-size="120"></div>
+    <div class="loading-heading">
+      <p class="eyebrow eyebrow-wide">Listening to</p>
+      <h1 class="title-md" id="loading-place"></h1>
+      <p class="found-line" id="found-line" hidden></p>
+    </div>
+    <ol class="panel steps" id="steps" aria-live="polite"></ol>
+    <p class="muted-17" id="loading-note">This can take a minute on a laptop.</p>
+    <button type="button" class="btn btn-primary" id="unroll-btn" hidden>Unroll the scroll</button>
+    <div class="load-error" id="load-error" hidden>
+      <p id="load-error-text"></p>
+      <button type="button" class="btn btn-ghost js-new-place">Try another place</button>
+    </div>
+  </main>
+</section>
+
+<!-- 4 · The tale -->
+<section class="screen screen-tale" id="screen-tale" hidden>
+  <header class="topbar topbar-tale">
+    <button type="button" class="icon-btn phone-only js-new-place" aria-label="Back to places">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <button type="button" class="brand desk-only js-home">Candlelit Legends</button>
+    <p class="phone-title phone-only" id="phone-title"></p>
+    <div class="topbar-actions">
+      <label for="vol" class="vol-label desk-only">Volume</label>
+      <input id="vol" class="desk-only" type="range" min="0" max="100" value="70">
+      <span class="mute-slot"></span>
+      <button type="button" class="btn btn-small desk-only js-skip">Skip to end</button>
+    </div>
+  </header>
+  <main class="tale-main">
+    <aside class="tale-aside">
+      <div class="candle-slot" data-size="120" id="tale-candle"></div>
+      <p class="eyebrow-quiet">Now playing</p>
+      <p class="now-playing js-now-playing"></p>
+    </aside>
+    <article class="scroll">
+      <div class="scroll-rod scroll-rod-top" aria-hidden="true"></div>
+      <div class="parchment">
+        <p class="eyebrow eyebrow-blood" id="tale-from"></p>
+        <h1 class="tale-title" id="tale-title"></h1>
+        <p class="tale-where" id="tale-where"></p>
+        <p class="tale-sub" id="tale-sub"></p>
+        <div class="divider" aria-hidden="true"><span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="#7a1f1f"><path d="M12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9z"/></svg><span></span></div>
+        <div class="tale-body" id="tale-body" aria-live="off"></div>
+        <div class="tale-end" id="tale-end" hidden>
+          <div class="divider" aria-hidden="true"><span></span><svg width="18" height="18" viewBox="0 0 24 24" fill="#7a1f1f"><path d="M12 2 15 9 22 12 15 15 12 22 9 15 2 12 9 9z"/></svg><span></span></div>
+          <button type="button" class="btn btn-ink" id="truth-btn">See the truth behind it</button>
+        </div>
+      </div>
+      <div class="scroll-rod scroll-rod-bottom" aria-hidden="true"></div>
+    </article>
+  </main>
+  <footer class="tale-footer phone-only">
+    <p class="now-playing js-now-playing"></p>
+    <button type="button" class="btn btn-small js-skip">Skip to end</button>
+  </footer>
+</section>
+
+<!-- 5 · The truth behind it -->
+<section class="screen screen-truth" id="screen-truth" hidden>
+  <header class="topbar">
+    <button type="button" class="brand js-home">Candlelit Legends</button>
+    <button type="button" class="text-link js-new-place">New place</button>
+  </header>
+  <main class="truth-main">
+    <div class="truth-heading">
+      <svg class="candle-small" width="72" height="110" viewBox="0 0 120 180" aria-hidden="true">
+        <g class="candle-flame candle-flame-low"><path d="M60 40 C66 52 70 62 66 70 C63 75 57 75 54 70 C50 62 54 52 60 40 Z" fill="#f5a742"/></g>
+        <path d="M60 72 L60 82" stroke="#2a1d12" stroke-width="3" stroke-linecap="round"/>
+        <rect x="36" y="82" width="48" height="56" rx="6" fill="#e8d9b5"/>
+        <path d="M36 96 C36 87 44 82 52 82 L84 82 L84 100 C80 100 80 114 75 114 C70 114 71 100 66 100 L36 100 Z" fill="#f4e8cc"/>
+        <rect x="28" y="136" width="64" height="10" rx="3" fill="#4a3624"/>
+        <ellipse cx="60" cy="150" rx="54" ry="12" fill="#2f2117"/>
+      </svg>
+      <h1 class="title-md">The truth behind the tale</h1>
+    </div>
+    <section class="parchment card-truth">
+      <div class="truth-top">
+        <div class="truth-id">
+          <p class="eyebrow eyebrow-blood" id="truth-from"></p>
+          <h2 class="truth-title" id="truth-title"></h2>
+          <p class="truth-location" id="truth-location"></p>
+        </div>
+        <div class="seal" aria-label="Label"><div class="seal-inner" id="truth-seal"></div></div>
+      </div>
+      <p class="truth-note" id="truth-notes" hidden></p>
+      <div class="fact-grid">
+        <div class="fact-col" id="col-documented">
+          <h3 class="h3">Documented</h3>
+          <ul id="facts-documented"></ul>
+        </div>
+        <div class="fact-col" id="col-legend">
+          <h3 class="h3 h3-blood">Legend</h3>
+          <ul id="facts-legend"></ul>
+        </div>
+      </div>
+      <div class="sources">
+        <h3 class="h3">Sources</h3>
+        <ol id="truth-sources"></ol>
+      </div>
+      <div class="chips" id="truth-chips"></div>
+      <p class="truth-respect">Many haunted places are private property or closed at night. Check before you visit.</p>
+    </section>
+    <div class="truth-actions">
+      <button type="button" class="btn btn-primary js-new-place">Another tale</button>
+      <button type="button" class="btn btn-ghost" id="again-btn">Another tale from here</button>
+    </div>
+    <section class="history" id="truth-history"></section>
+  </main>
+</section>
+
+<!-- Past tales -->
+<section class="screen screen-past" id="screen-past" hidden>
+  <header class="topbar">
+    <button type="button" class="brand js-home">Candlelit Legends</button>
+    <button type="button" class="text-link js-new-place">New place</button>
+  </header>
+  <main class="truth-main">
+    <section class="history" id="past-history"></section>
+  </main>
+</section>
+
+<template id="history-tpl">
+  <div class="history-head">
+    <h2 class="h2-dark">Tales already told</h2>
+    <button type="button" class="text-btn js-clear">Clear history</button>
+  </div>
+  <p class="history-empty" hidden></p>
+  <ul class="history-list"></ul>
+  <p class="hint history-foot">New tales skip these legends and use a different narrator and tone from the last five.</p>
+</template>
+
+<script src="/static/audio.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

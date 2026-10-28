@@ -1,0 +1,15 @@
+{
+  "_readme": "Drop CC0 recordings from Freesound (https://freesound.org, filter: Creative Commons 0) or OpenGameArt (https://opengameart.org) here as <id>.ogg and fill in the matching entry. Any id without a file is synthesised in the browser, so the app works before you add recordings.",
+  "fire":      {"file": "fire.ogg",      "title": "", "author": "", "source": "", "license": ""},
+  "wind":      {"file": "wind.ogg",      "title": "", "author": "", "source": "", "license": ""},
+  "water":     {"file": "water.ogg",     "title": "", "author": "", "source": "", "license": ""},
+  "creak":     {"file": "creak.ogg",     "title": "", "author": "", "source": "", "license": ""},
+  "door":      {"file": "door.ogg",      "title": "", "author": "", "source": "", "license": ""},
+  "footsteps": {"file": "footsteps.ogg", "title": "", "author": "", "source": "", "license": ""},
+  "bell":      {"file": "bell.ogg",      "title": "", "author": "", "source": "", "license": ""},
+  "whisper":   {"file": "whisper.ogg",   "title": "", "author": "", "source": "", "license": ""},
+  "knock":     {"file": "knock.ogg",     "title": "", "author": "", "source": "", "license": ""},
+  "crow":      {"file": "crow.ogg",      "title": "", "author": "", "source": "", "license": ""},
+  "chains":    {"file": "chains.ogg",    "title": "", "author": "", "source": "", "license": ""},
+  "heartbeat": {"file": "heartbeat.ogg", "title": "", "author": "", "source": "", "license": ""}
+}
