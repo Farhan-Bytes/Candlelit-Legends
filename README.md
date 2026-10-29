@@ -1,5 +1,7 @@
 # Candlelit Legends
 
+<img width="2000" height="840" alt="image" src="https://github.com/user-attachments/assets/442b5b7d-bc39-47a7-82bc-78b6c5576900" />
+
 Name a place and get a real, sourced local legend, retold as a short spooky tale on a parchment scroll, with sound cues timed to the text. Everything runs on your laptop through Ollama. The only request that leaves the machine is the web search (DuckDuckGo, with Wikipedia as a fallback).
 
 See [Candlelit Legends Design Doc.md](Candlelit%20Legends%20Design%20Doc.md) for the full design.
